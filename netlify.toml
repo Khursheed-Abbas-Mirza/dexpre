@@ -2,7 +2,7 @@
   functions = "."  # Use the root directory for functions
 
 [[redirects]]
-  from = "/chotu/*"  # Proxy API requests to the function
+  from = "/*"  # Proxy API requests to the function
   to = "/.netlify/functions/app/:splat"
   status = 200
   force = true
