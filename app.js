@@ -8,7 +8,7 @@ const router = express.Router();
 console.log(__dirname)
 // Middleware to parse JSON and serve static files
 app.use(express.json());
-app.use(express.static( 'public'));
+app.use("/assets",express.static( 'public'));
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -35,8 +35,8 @@ router.post('/echo', (req, res) => {
 
 // Mount the router at /chotu
 app.use('/chotu', router);
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-})
+// app.listen(3000, () => {
+//   console.log('Server is running on port 3000');
+// })
 // Export the handler for Netlify Functions
 module.exports.handler = serverless(app);
