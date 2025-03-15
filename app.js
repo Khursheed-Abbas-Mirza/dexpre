@@ -1,39 +1,42 @@
 const express = require('express');
 const serverless = require('serverless-http');
-const path=require("path")
+// const path = require('path');
+// const fs = require('fs');
+
 const app = express();
 const router = express.Router();
-const fs = require('fs');
-// Middleware to parse JSON
+console.log(__dirname)
+// Middleware to parse JSON and serve static files
 app.use(express.json());
-app.use(express.static('public'));
-const viewsPath = path.join(__dirname, 'views');
-console.log('Views directory:', viewsPath);
-if (!fs.existsSync(viewsPath)) {
-  console.error('Views directory not found:', viewsPath);
-}
-app.set('view engine', 'ejs');
-app.set('views', viewsPath);
+app.use(express.static( 'public'));
 
-// Sample API routes
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+// Root route
+app.get('/', (req, res) => {
+  try {
+    res.render('index');
+  } catch (err) {
+    console.error('Render error:', err);
+    res.status(500).send('Error rendering page');
+  }
+});
+app.post('/', (req, res) => {
+  res.send(req.body);
+});
+
+// API routes
 router.get('/hello', (req, res) => {
   res.json({ message: 'Hello from the Express API!' });
 });
 router.post('/echo', (req, res) => {
-    res.json({ received: req.body });
+  res.json({ received: req.body });
 });
-app.get('/', (req, res) => {
-   
-    res.render('index');
-})
-app.post('/', (req, res) => {
-    res.send(req.body);
-})
 
-// Mount the router at /api to match the public-facing path
+// Mount the router at /chotu
 app.use('/chotu', router);
-
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+})
 // Export the handler for Netlify Functions
 module.exports.handler = serverless(app);
-
-
