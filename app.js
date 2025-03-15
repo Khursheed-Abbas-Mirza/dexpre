@@ -1,15 +1,25 @@
-const express=require('express');
-const {Router}=require('express');
-const app=express();
-const router=Router();
-const serverless=require('serverless-http');
-router.get('/',(req,res)=>{
-    console.log('hello chotu created a static website',req);
-    res.send('hello chotu created a static website');
+const express = require('express');
+const serverless = require('serverless-http');
+
+const app = express();
+const router = express.Router();
+
+// Middleware to parse JSON
+app.use(express.json());
+
+// Sample API routes
+router.get('/hello', (req, res) => {
+  res.json({ message: 'Hello from the Express API!' });
 });
 
-app.use("/api/",router);
-// app.listen(3000,()=>{
-//     console.log('server is running on port 3000');
-// });
-exports.handler=serverless(app);
+router.post('/echo', (req, res) => {
+  res.json({ received: req.body });
+});
+
+// Mount the router at /api to match the public-facing path
+app.use('/chotu', router);
+
+// Export the handler for Netlify Functions
+module.exports.handler = serverless(app);
+
+
