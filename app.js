@@ -14,12 +14,9 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 // Root route
 app.get('/', (req, res) => {
-  try {
+ 
     res.render('index');
-  } catch (err) {
-    console.error('Render error:', err);
-    res.status(500).send('Error rendering page');
-  }
+ 
 });
 app.post('/', (req, res) => {
   res.send(req.body);
