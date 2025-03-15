@@ -17,7 +17,8 @@ router.post('/echo', (req, res) => {
     res.json({ received: req.body });
 });
 app.get('/', (req, res) => {
-    res.render('index.ejs');
+   
+    res.render('index');
 })
 app.post('/', (req, res) => {
     res.send(req.body);
