@@ -1,21 +1,18 @@
 const express = require('express');
 const serverless = require('serverless-http');
-// const path = require('path');
-// const fs = require('fs');
 
 const app = express();
 const router = express.Router();
-console.log(__dirname)
+
 // Middleware to parse JSON and serve static files
 app.use(express.json());
 app.use("/assets",express.static( 'public'));
 
-app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 // Root route
 app.get('/', (req, res) => {
  
-    res.render('index');
+    res.sendFile(__dirname+'/views' + '/index.html');
  
 });
 app.post('/', (req, res) => {
